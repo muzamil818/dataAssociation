@@ -8,7 +8,6 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/createuser", async function (req, res) {
-
   const createdUser = await userModel.create({
     fullname: "muzamil ali",
     username: "muzamil",
@@ -19,16 +18,19 @@ router.get("/createuser", async function (req, res) {
   res.send(createdUser);
 });
 
+router.get("/finduserpost", async function(req, res){
+  const userpost = await userModel.findOne({_id: "68b30cf9fd435f074ffe6429" }).populate("posts")
+
+  res.send(userpost)
+})
+
 router.get("/createpost", async function (req, res) {
-
   const createdPost = await postModel.create({
-
-    title: "This is my first post",
-    users: "68b203250b7fb850cb8402cb",
-
+    title: "that is my third post ",
+    users: "68b30cf9fd435f074ffe6429",
   });
 
-  const user = await userModel.findOne({ _id: "68b203250b7fb850cb8402cb" });
+  const user = await userModel.findOne({ _id: "68b30cf9fd435f074ffe6429" });
   user.posts.push(createdPost._id);
 
   await user.save();
